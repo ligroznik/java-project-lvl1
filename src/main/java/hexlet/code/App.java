@@ -1,7 +1,10 @@
 package hexlet.code;
 
+
+import java.io.IOException;
+
 public class App {
-    public static void main(String[] args) {
-        System.out.println("Welcome to the Brain Games!");
+    public static void main(String[] args) throws IOException {
+        Cli.welcome();
     }
 }
