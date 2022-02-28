@@ -13,3 +13,9 @@ check-updates:
 
 run:
 	./gradlew run
+lint:
+	./gradlew checkstyleMain
+
+run-build: lint
+	./gradlew clean build
+

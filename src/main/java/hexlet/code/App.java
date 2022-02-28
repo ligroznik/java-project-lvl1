@@ -1,6 +1,5 @@
 package hexlet.code;
 
-
 import java.io.IOException;
 
 public class App {
