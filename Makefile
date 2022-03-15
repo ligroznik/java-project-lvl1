@@ -1,21 +1,25 @@
 install:
 	./gradlew clean install
 
-run-dist:
+run-install:
 	./build/install/app/bin/app
 
-install-run:
-	./gradlew clean install
-	./build/install/app/bin/app
+install-and-run: lint install run-install
 
 check-updates:
 	./gradlew dependencyUpdates
 
 run:
 	./gradlew run
+
 lint:
 	./gradlew checkstyleMain
 
-run-build: lint
+build: lint
 	./gradlew clean build
+
+
+
+
+
 
