@@ -1,9 +1,10 @@
 package hexlet.code.games;
 
+import interfaces.Game;
 import java.util.Random;
 import java.util.Scanner;
 
-public class Even {
+public class Even implements Game {
 
     public static void run(String name) {
         System.out.println("Answer 'yes' if the number is even, otherwise answer 'no'.");
@@ -16,11 +17,7 @@ public class Even {
             System.out.print("Your answer: ");
             Scanner input = new Scanner(System.in);
             String answer = input.nextLine();
-            if (!answer.equals("yes") && !answer.equals("no")) {
-                answerIsTrue = false;
-                System.out.printf("'%s' is wrong answer ;(. Correct answer was '%s'%n", answer, randomInt % 2 != 0 ? "no" : "yes");
-                break;
-            } else if (answer.equals("yes") && randomInt % 2 == 0 || answer.equals("no") && randomInt % 2 != 0) {
+            if (answer.equals("yes") && randomInt % 2 == 0 || answer.equals("no") && randomInt % 2 != 0) {
                 System.out.println("Correct!");
                 answerIsTrue = true;
                 --questions;
