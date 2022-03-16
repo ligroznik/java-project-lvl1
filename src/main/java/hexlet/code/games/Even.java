@@ -5,13 +5,13 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Even implements Game {
+    static Random random = new Random();
 
     public static Boolean run(Integer steps) {
         System.out.println("Answer 'yes' if the number is even, otherwise answer 'no'.");
 
         for (int step = 1; step <= steps; step++) {
-            Random r = new Random();
-            int randomInt = r.nextInt(100) + 1;
+            int randomInt = random.nextInt(100) + 1;
             System.out.println("Question: " + randomInt);
             System.out.print("Your answer: ");
             Scanner input = new Scanner(System.in);

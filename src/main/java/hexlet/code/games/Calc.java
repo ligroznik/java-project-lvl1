@@ -5,20 +5,20 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Calc implements Game {
+    static Random random = new Random();
 
     public static Boolean run(Integer steps) {
         try {
             for (int step = 1; step <= steps; step++) {
-                Random r = new Random();
                 int randomFirstNum;
                 int randomSecondNum;
-                Operations operation = getOperation(r.nextInt(90) + 1);
+                Operations operation = getOperation(random.nextInt(90) + 1);
                 if (operation.equals(Operations.MULTIPLICATION)) {
-                    randomFirstNum = r.nextInt(15) + 1;
-                    randomSecondNum = r.nextInt(15) + 1;
+                    randomFirstNum = random.nextInt(15) + 1;
+                    randomSecondNum = random.nextInt(15) + 1;
                 } else {
-                    randomFirstNum = r.nextInt(100) + 1;
-                    randomSecondNum = r.nextInt(100) + 1;
+                    randomFirstNum = random.nextInt(100) + 1;
+                    randomSecondNum = random.nextInt(100) + 1;
                 }
                 Integer correctAnswer = getResult(randomFirstNum, randomSecondNum, operation);
                 System.out.printf("Question: %s %s %s\n", randomFirstNum, operation.getValue(), randomSecondNum);

@@ -5,13 +5,13 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class GCD implements Game {
+    static Random random = new Random();
 
     public static Boolean run(Integer steps) {
         try {
             for (int step = 1; step <= steps; step++) {
-                Random r = new Random();
-                int randomFirstNum = r.nextInt(100) + 1;
-                int randomSecondNum = r.nextInt(100) + 1;
+                int randomFirstNum = random.nextInt(100) + 1;
+                int randomSecondNum = random.nextInt(100) + 1;
 
                 Integer correctAnswer = getResult(randomFirstNum, randomSecondNum);
                 System.out.printf("Question: %s %s\n", randomFirstNum, randomSecondNum);
@@ -32,7 +32,6 @@ public class GCD implements Game {
             return false;
         }
     }
-
 
     private static Integer getResult(Integer firstNum, Integer secondNum) {
         int largestNumber = firstNum > secondNum ? firstNum : secondNum;
