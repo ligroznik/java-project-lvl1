@@ -1,6 +1,7 @@
 package interfaces;
 
 public interface Game {
-    static void run(String name) {
+    static Boolean run(Integer steps) {
+        return false;
     }
 }

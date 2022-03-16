@@ -6,11 +6,10 @@ import java.util.Scanner;
 
 public class Even implements Game {
 
-    public static void run(String name) {
+    public static Boolean run(Integer steps) {
         System.out.println("Answer 'yes' if the number is even, otherwise answer 'no'.");
-        boolean answerIsTrue;
-        int questions = 3;
-        do {
+
+        for (int step = 1; step <= steps; step++) {
             Random r = new Random();
             int randomInt = r.nextInt(100) + 1;
             System.out.println("Question: " + randomInt);
@@ -19,16 +18,12 @@ public class Even implements Game {
             String answer = input.nextLine();
             if (answer.equals("yes") && randomInt % 2 == 0 || answer.equals("no") && randomInt % 2 != 0) {
                 System.out.println("Correct!");
-                answerIsTrue = true;
-                --questions;
             } else {
-                answerIsTrue = false;
                 System.out.printf("'%s' is wrong answer \uD83E\uDD72. Correct answer was '%s'%n\n", answer, answer.equals("yes") ? "no" : "yes");
-                break;
+                System.out.println();
+                return false;
             }
-        } while (questions > 0);
-        if (answerIsTrue) {
-            System.out.printf("Congratulations \uD83E\uDD73, %s!%n\n", name);
         }
+        return true;
     }
 }

@@ -4,9 +4,18 @@ import java.util.Arrays;
 
 public class Games {
     public static void runGame(GameNames gameName, String name) {
+        boolean gameIsComplete = false;
         switch (gameName) {
-            case Calc -> Calc.run(name);
-            case Even -> Even.run(name);
+            case Calc -> gameIsComplete = Calc.run(3);
+            case Even -> gameIsComplete = Even.run(3);
+            case GCD -> gameIsComplete = GCD.run(3);
+        }
+        if (gameIsComplete) {
+            System.out.printf("Congratulations \uD83E\uDD73, %s!\n", name);
+            System.out.println();
+        } else {
+            System.out.printf("Let's try again, %s.\n", name);
+            System.out.println();
         }
     }
 

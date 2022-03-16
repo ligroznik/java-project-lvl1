@@ -2,5 +2,6 @@ package hexlet.code.games;
 
 public enum GameNames {
     Even,
-    Calc
+    Calc,
+    GCD
 }
