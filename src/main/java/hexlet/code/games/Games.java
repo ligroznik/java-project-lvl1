@@ -10,6 +10,7 @@ public class Games {
             case Even -> gameIsComplete = Even.run(3);
             case GCD -> gameIsComplete = GCD.run(3);
             case Progression -> gameIsComplete = Progression.run(3);
+            case Prime -> gameIsComplete = Prime.run(3);
         }
         if (gameIsComplete) {
             System.out.printf("Congratulations \uD83E\uDD73, %s!\n", name);
