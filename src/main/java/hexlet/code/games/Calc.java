@@ -1,79 +1,51 @@
 package hexlet.code.games;
 
-import interfaces.Game;
-import java.util.Random;
-import java.util.Scanner;
+import hexlet.code.Engine;
+import hexlet.code.Step;
+import java.util.ArrayList;
 
-public class Calc implements Game {
-    static Random random = new Random();
+public class Calc {
+    public static void run() {
+        Engine.run(getSteps(), "What is the result of the expression?", "Calc");
+    }
 
-    public static Boolean run(Integer steps) {
-        try {
-            for (int step = 1; step <= steps; step++) {
-                int randomFirstNum;
-                int randomSecondNum;
-                Operations operation = getOperation(random.nextInt(90) + 1);
-                if (operation.equals(Operations.MULTIPLICATION)) {
-                    randomFirstNum = random.nextInt(15) + 1;
-                    randomSecondNum = random.nextInt(15) + 1;
-                } else {
-                    randomFirstNum = random.nextInt(100) + 1;
-                    randomSecondNum = random.nextInt(100) + 1;
-                }
-                Integer correctAnswer = getResult(randomFirstNum, randomSecondNum, operation);
-                System.out.printf("Question: %s %s %s\n", randomFirstNum, operation.getValue(), randomSecondNum);
-                System.out.print("Your answer: ");
-                Scanner input = new Scanner(System.in);
-                String answer = input.nextLine();
-                if (Integer.parseInt(answer) == correctAnswer) {
-                    System.out.println("Correct!");
-                } else {
-                    System.out.printf("'%s' is wrong answer \uD83E\uDD72. Correct answer was '%s'%n", answer, correctAnswer);
-                    return false;
-                }
+    private static final String[] OPERATION = {"*", "-", "+"};
+
+    private static ArrayList<Step> getSteps() {
+        ArrayList<Step> steps = new ArrayList<>();
+        for (var step = 0; step < Engine.STEPS; step++) {
+            int randomFirstNum;
+            int randomSecondNum;
+            String operation = getOperation();
+            if (operation.equals(OPERATION[0])) {
+                randomFirstNum = Engine.getRandom(Engine.RANGE_LIMIT_1, Engine.RANGE_LIMIT_15);
+                randomSecondNum = Engine.getRandom(Engine.RANGE_LIMIT_1, Engine.RANGE_LIMIT_15);
+            } else {
+                randomFirstNum = Engine.getRandom(Engine.RANGE_LIMIT_1, Engine.RANGE_LIMIT_100);
+                randomSecondNum = Engine.getRandom(Engine.RANGE_LIMIT_1, Engine.RANGE_LIMIT_100);
             }
-            return true;
-        } catch (NumberFormatException ex) {
-            System.out.print("Incorrect answer \uD83E\uDD72, use only numbers pls.");
-            System.out.println();
-            return false;
+            String answer = getResult(randomFirstNum, randomSecondNum, operation);
+            String question = String.format("Question: %s %s %s\n", randomFirstNum, operation, randomSecondNum);
+            steps.add(new Step(question, answer));
         }
+        return steps;
     }
 
-    private static Operations getOperation(Integer randomNumber) {
-        if (randomNumber > 0 && randomNumber <= 30) {
-            return Operations.ADDITION;
-        } else if (randomNumber > 30 && randomNumber <= 60) {
-            return Operations.SUBTRACTION;
-        }
-        return Operations.MULTIPLICATION;
+    private static String getOperation() {
+        return OPERATION[Engine.getRandom(0, OPERATION.length - 1)];
     }
 
-    private static Integer getResult(Integer firstNum, Integer secondNum, Operations operation) {
+    private static String getResult(Integer firstNum, Integer secondNum, String operation) {
         switch (operation) {
-            case SUBTRACTION -> {
-                return firstNum - secondNum;
+            case "-" -> {
+                return Integer.toString(firstNum - secondNum);
             }
-            case ADDITION -> {
-                return firstNum + secondNum;
+            case "+" -> {
+                return Integer.toString(firstNum + secondNum);
             }
             default -> {
-                return firstNum * secondNum;
+                return Integer.toString(firstNum * secondNum);
             }
-        }
-    }
-
-    private enum Operations {
-        ADDITION("+"), SUBTRACTION("-"), MULTIPLICATION("*");
-
-        private final String value;
-
-        Operations(String value) {
-            this.value = value;
-        }
-
-        public String getValue() {
-            return value;
         }
     }
 }

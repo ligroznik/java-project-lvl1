@@ -1,36 +1,24 @@
 package hexlet.code.games;
 
-import interfaces.Game;
-import java.util.Random;
-import java.util.Scanner;
+import hexlet.code.Engine;
+import hexlet.code.Step;
+import java.util.ArrayList;
 
-public class GCD implements Game {
-    static Random random = new Random();
+public class GCD {
+    public static void run() {
+        Engine.run(getSteps(), "Find the greatest common divisor of given numbers.", "GCD");
+    }
 
-    public static Boolean run(Integer steps) {
-        try {
-            for (int step = 1; step <= steps; step++) {
-                int randomFirstNum = random.nextInt(100) + 1;
-                int randomSecondNum = random.nextInt(100) + 1;
-
-                Integer correctAnswer = getResult(randomFirstNum, randomSecondNum);
-                System.out.printf("Question: %s %s\n", randomFirstNum, randomSecondNum);
-                System.out.print("Your answer: ");
-                Scanner input = new Scanner(System.in);
-                String answer = input.nextLine();
-                if (Integer.parseInt(answer) == correctAnswer) {
-                    System.out.println("Correct!");
-                } else {
-                    System.out.printf("'%s' is wrong answer \uD83E\uDD72. Correct answer was '%s'%n", answer, correctAnswer);
-                    return false;
-                }
-            }
-            return true;
-        } catch (NumberFormatException ex) {
-            System.out.print("Incorrect answer \uD83E\uDD72, use only numbers pls.");
-            System.out.println();
-            return false;
+    private static ArrayList<Step> getSteps() {
+        ArrayList<Step> steps = new ArrayList<>();
+        for (var step = 0; step < Engine.STEPS; step++) {
+            int randomFirstNum = Engine.getRandom(Engine.RANGE_LIMIT_1, Engine.RANGE_LIMIT_100);
+            int randomSecondNum = Engine.getRandom(Engine.RANGE_LIMIT_1, Engine.RANGE_LIMIT_100);
+            String answer = getResult(randomFirstNum, randomSecondNum).toString();
+            String question = String.format("Question: %s %s\n", randomFirstNum, randomSecondNum);
+            steps.add(new Step(question, answer));
         }
+        return steps;
     }
 
     private static Integer getResult(Integer firstNum, Integer secondNum) {
