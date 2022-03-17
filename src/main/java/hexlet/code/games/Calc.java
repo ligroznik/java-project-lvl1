@@ -1,43 +1,36 @@
 package hexlet.code.games;
 
-import interfaces.Game;
+import hexlet.code.Engine;
+import hexlet.code.Step;
+import java.util.ArrayList;
 import java.util.Random;
-import java.util.Scanner;
 
-public class Calc implements Game {
+public class Calc {
     static Random random = new Random();
+    public static String rules = "What is the result of the expression?";
 
-    public static Boolean run(Integer steps) {
-        try {
-            for (int step = 1; step <= steps; step++) {
-                int randomFirstNum;
-                int randomSecondNum;
-                Operations operation = getOperation(random.nextInt(90) + 1);
-                if (operation.equals(Operations.MULTIPLICATION)) {
-                    randomFirstNum = random.nextInt(15) + 1;
-                    randomSecondNum = random.nextInt(15) + 1;
-                } else {
-                    randomFirstNum = random.nextInt(100) + 1;
-                    randomSecondNum = random.nextInt(100) + 1;
-                }
-                Integer correctAnswer = getResult(randomFirstNum, randomSecondNum, operation);
-                System.out.printf("Question: %s %s %s\n", randomFirstNum, operation.getValue(), randomSecondNum);
-                System.out.print("Your answer: ");
-                Scanner input = new Scanner(System.in);
-                String answer = input.nextLine();
-                if (Integer.parseInt(answer) == correctAnswer) {
-                    System.out.println("Correct!");
-                } else {
-                    System.out.printf("'%s' is wrong answer \uD83E\uDD72. Correct answer was '%s'%n", answer, correctAnswer);
-                    return false;
-                }
+    public static void run() {
+        Engine.run(getSteps(), rules, "Calc");
+    }
+
+    private static ArrayList<Step> getSteps() {
+        ArrayList<Step> steps = new ArrayList<>();
+        for (var step = 0; step < Engine.steps; step++) {
+            int randomFirstNum;
+            int randomSecondNum;
+            Operations operation = getOperation(random.nextInt(90) + 1);
+            if (operation.equals(Operations.MULTIPLICATION)) {
+                randomFirstNum = random.nextInt(15) + 1;
+                randomSecondNum = random.nextInt(15) + 1;
+            } else {
+                randomFirstNum = random.nextInt(100) + 1;
+                randomSecondNum = random.nextInt(100) + 1;
             }
-            return true;
-        } catch (NumberFormatException ex) {
-            System.out.print("Incorrect answer \uD83E\uDD72, use only numbers pls.");
-            System.out.println();
-            return false;
+            String answer = getResult(randomFirstNum, randomSecondNum, operation).toString();
+            String question = String.format("Question: %s %s %s\n", randomFirstNum, operation.getValue(), randomSecondNum);
+            steps.add(new Step(question, answer));
         }
+        return steps;
     }
 
     private static Operations getOperation(Integer randomNumber) {

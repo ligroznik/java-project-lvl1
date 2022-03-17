@@ -1,36 +1,28 @@
 package hexlet.code.games;
 
-import interfaces.Game;
+import hexlet.code.Engine;
+import hexlet.code.Step;
+import java.util.ArrayList;
 import java.util.Random;
-import java.util.Scanner;
 
-public class GCD implements Game {
+public class GCD {
     static Random random = new Random();
+    public static String rules = "Find the greatest common divisor of given numbers.";
 
-    public static Boolean run(Integer steps) {
-        try {
-            for (int step = 1; step <= steps; step++) {
-                int randomFirstNum = random.nextInt(100) + 1;
-                int randomSecondNum = random.nextInt(100) + 1;
+    public static void run() {
+        Engine.run(getSteps(), rules, "GCD");
+    }
 
-                Integer correctAnswer = getResult(randomFirstNum, randomSecondNum);
-                System.out.printf("Question: %s %s\n", randomFirstNum, randomSecondNum);
-                System.out.print("Your answer: ");
-                Scanner input = new Scanner(System.in);
-                String answer = input.nextLine();
-                if (Integer.parseInt(answer) == correctAnswer) {
-                    System.out.println("Correct!");
-                } else {
-                    System.out.printf("'%s' is wrong answer \uD83E\uDD72. Correct answer was '%s'%n", answer, correctAnswer);
-                    return false;
-                }
-            }
-            return true;
-        } catch (NumberFormatException ex) {
-            System.out.print("Incorrect answer \uD83E\uDD72, use only numbers pls.");
-            System.out.println();
-            return false;
+    private static ArrayList<Step> getSteps() {
+        ArrayList<Step> steps = new ArrayList<>();
+        for (var step = 0; step < Engine.steps; step++) {
+            int randomFirstNum = random.nextInt(100) + 1;
+            int randomSecondNum = random.nextInt(100) + 1;
+            String answer = getResult(randomFirstNum, randomSecondNum).toString();
+            String question = String.format("Question: %s %s\n", randomFirstNum, randomSecondNum);
+            steps.add(new Step(question, answer));
         }
+        return steps;
     }
 
     private static Integer getResult(Integer firstNum, Integer secondNum) {

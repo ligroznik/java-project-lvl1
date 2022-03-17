@@ -1,32 +1,27 @@
 package hexlet.code.games;
 
-import interfaces.Game;
+import hexlet.code.Engine;
+import hexlet.code.Step;
+import java.util.ArrayList;
 import java.util.Random;
-import java.util.Scanner;
 
-public class Prime implements Game {
+public class Prime {
     static Random random = new Random();
+    public static String rules = "Answer 'yes' if the number is prime, otherwise answer 'no'.";
 
-    public static Boolean run(Integer steps) {
-        System.out.println("Answer 'yes' if the number is prime, otherwise answer 'no'.");
+    public static void run() {
+        Engine.run(getSteps(), rules, "Prime");
+    }
 
-        for (int step = 1; step <= steps; step++) {
+    private static ArrayList<Step> getSteps() {
+        ArrayList<Step> steps = new ArrayList<>();
+        for (var step = 0; step < Engine.steps; step++) {
             int randomInt = random.nextInt(100) + 1;
-            System.out.println("Question: " + randomInt);
-            System.out.print("Your answer: ");
-            Scanner input = new Scanner(System.in);
-            String answer = input.nextLine();
-            String correctAnswer = numberIsPrime(randomInt) ? "yes" : "no";
-            if (answer.equals(correctAnswer)) {
-                System.out.println("Correct!");
-            } else {
-                System.out.printf("'%s' is wrong answer \uD83E\uDD72. Correct answer was '%s'%n\n", answer, correctAnswer);
-                System.out.println();
-                return false;
-            }
+            String answer = numberIsPrime(randomInt) ? "yes" : "no";
+            String question = "Question: " + randomInt;
+            steps.add(new Step(question, answer));
         }
-
-        return true;
+        return steps;
     }
 
     private static Boolean numberIsPrime(Integer number) {
