@@ -1,10 +1,10 @@
 package hexlet.code;
 
-public class Step {
-    private String question;
-    private String answer;
+public class RoundData {
+    private final String question;
+    private final String answer;
 
-    public Step(String gameQuestion, String correctAnswer) {
+    public RoundData(String gameQuestion, String correctAnswer) {
         this.question = gameQuestion;
         this.answer = correctAnswer;
     }

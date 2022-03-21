@@ -1,46 +1,47 @@
 package hexlet.code.games;
 
 import hexlet.code.Engine;
-import hexlet.code.Step;
+import hexlet.code.RoundData;
+import hexlet.code.Utils;
+
 import java.util.ArrayList;
 
 public class Calc {
     public static void run() {
-        Engine.run(getSteps(), "What is the result of the expression?", "Calc");
+        Engine.run(getRoundsData(), "What is the result of the expression?");
     }
 
-    private static final String[] OPERATION = {"*", "-", "+"};
+    private static final int RANDOM_RANGE_LIMIT_1 = 1;
+    private static final int RANDOM_RANGE_LIMIT_100 = 100;
+    private static final char[] OPERATION = {'*', '-', '+'};
 
-    private static ArrayList<Step> getSteps() {
-        ArrayList<Step> steps = new ArrayList<>();
-        for (var step = 0; step < Engine.STEPS; step++) {
-            int randomFirstNum;
-            int randomSecondNum;
-            String operation = getOperation();
-            if (operation.equals(OPERATION[0])) {
-                randomFirstNum = Engine.getRandom(Engine.RANGE_LIMIT_1, Engine.RANGE_LIMIT_15);
-                randomSecondNum = Engine.getRandom(Engine.RANGE_LIMIT_1, Engine.RANGE_LIMIT_15);
-            } else {
-                randomFirstNum = Engine.getRandom(Engine.RANGE_LIMIT_1, Engine.RANGE_LIMIT_100);
-                randomSecondNum = Engine.getRandom(Engine.RANGE_LIMIT_1, Engine.RANGE_LIMIT_100);
-            }
-            String answer = getResult(randomFirstNum, randomSecondNum, operation);
-            String question = String.format("Question: %s %s %s\n", randomFirstNum, operation, randomSecondNum);
-            steps.add(new Step(question, answer));
+    private static ArrayList<RoundData> getRoundsData() {
+        ArrayList<RoundData> rounds = new ArrayList<>();
+        for (var step = 0; step < Engine.ROUNDS; step++) {
+            rounds.add(generateRoundData());
         }
-        return steps;
+        return rounds;
     }
 
-    private static String getOperation() {
-        return OPERATION[Engine.getRandom(0, OPERATION.length - 1)];
+    private static RoundData generateRoundData() {
+        char operation = getOperation();
+        int randomFirstNum = Utils.getRandom(RANDOM_RANGE_LIMIT_1, RANDOM_RANGE_LIMIT_100);
+        int randomSecondNum = Utils.getRandom(RANDOM_RANGE_LIMIT_1, RANDOM_RANGE_LIMIT_100);
+        String answer = generateCorrectAnswer(randomFirstNum, randomSecondNum, operation);
+        String question = String.format("Question: %s %s %s\n", randomFirstNum, operation, randomSecondNum);
+        return new RoundData(question, answer);
     }
 
-    private static String getResult(Integer firstNum, Integer secondNum, String operation) {
+    private static char getOperation() {
+        return OPERATION[Utils.getRandom(0, OPERATION.length - 1)];
+    }
+
+    private static String generateCorrectAnswer(int firstNum, int secondNum, char operation) {
         switch (operation) {
-            case "-" -> {
+            case '-' -> {
                 return Integer.toString(firstNum - secondNum);
             }
-            case "+" -> {
+            case '+' -> {
                 return Integer.toString(firstNum + secondNum);
             }
             default -> {
