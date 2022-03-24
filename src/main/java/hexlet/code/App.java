@@ -20,7 +20,7 @@ public class App {
         Scanner input = new Scanner(System.in);
         int numberOfMenu = input.nextInt();
         switch (MENU[numberOfMenu - 1]) {
-            case "Greet" -> Cli.welcome();
+            case "Greet" -> Cli.userGreeting();
             case "Calc" -> Calc.run();
             case "Even" -> Even.run();
             case "GCD" -> GCD.run();

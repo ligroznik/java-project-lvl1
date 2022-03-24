@@ -3,50 +3,41 @@ package hexlet.code.games;
 import hexlet.code.Engine;
 import hexlet.code.RoundData;
 import hexlet.code.Utils;
-
-import java.util.ArrayList;
+import java.util.function.IntBinaryOperator;
 
 public class Calc {
-    public static void run() {
-        Engine.run(getRoundsData(), "What is the result of the expression?");
-    }
-
     private static final int RANDOM_RANGE_LIMIT_1 = 1;
     private static final int RANDOM_RANGE_LIMIT_100 = 100;
-    private static final char[] OPERATION = {'*', '-', '+'};
 
-    private static ArrayList<RoundData> getRoundsData() {
-        ArrayList<RoundData> rounds = new ArrayList<>();
-        for (var step = 0; step < Engine.ROUNDS; step++) {
-            rounds.add(generateRoundData());
-        }
-        return rounds;
+    public static void run() {
+        Engine.run(Calc::generateNextRoundData, "What is the result of the expression?");
     }
 
-    private static RoundData generateRoundData() {
-        char operation = getOperation();
+    private static RoundData generateNextRoundData() {
+        Operations operation = Operations.values()[Utils.getRandom(0, Operations.values().length)];
         int randomFirstNum = Utils.getRandom(RANDOM_RANGE_LIMIT_1, RANDOM_RANGE_LIMIT_100);
         int randomSecondNum = Utils.getRandom(RANDOM_RANGE_LIMIT_1, RANDOM_RANGE_LIMIT_100);
-        String answer = generateCorrectAnswer(randomFirstNum, randomSecondNum, operation);
-        String question = String.format("Question: %s %s %s\n", randomFirstNum, operation, randomSecondNum);
+        String answer = Integer.toString(operation.binaryOperator.applyAsInt(randomFirstNum, randomSecondNum));
+        String question = String.format("%d %s %d", randomFirstNum, operation, randomSecondNum);
         return new RoundData(question, answer);
     }
 
-    private static char getOperation() {
-        return OPERATION[Utils.getRandom(0, OPERATION.length - 1)];
-    }
+    private enum Operations {
+        ADDITION("+", (a, b) -> a + b),
+        SUBTRACTION("-", (a, b) -> a - b),
+        MULTIPLICATION("*", (a, b) -> a * b);
 
-    private static String generateCorrectAnswer(int firstNum, int secondNum, char operation) {
-        switch (operation) {
-            case '-' -> {
-                return Integer.toString(firstNum - secondNum);
-            }
-            case '+' -> {
-                return Integer.toString(firstNum + secondNum);
-            }
-            default -> {
-                return Integer.toString(firstNum * secondNum);
-            }
+        private final String operation;
+        private final IntBinaryOperator binaryOperator;
+
+        Operations(String operationValue, IntBinaryOperator binaryOperatorValue) {
+            this.operation = operationValue;
+            this.binaryOperator = binaryOperatorValue;
+        }
+
+        @Override
+        public String toString() {
+            return operation;
         }
     }
 }

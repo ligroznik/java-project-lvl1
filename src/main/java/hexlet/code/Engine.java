@@ -1,27 +1,38 @@
 package hexlet.code;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Engine {
+    private static final String WRONG_ANSWER_MESSAGE = "'%s' is wrong answer ;(. Correct answer was '%s'.\n"
+            + "Let's try again, %s!";
+    private static final String CORRECT_ANSWER_MESSAGE = "Correct!";
+    private static final String CONGRATULATIONS_MESSAGE = "Congratulations, %s!";
+    private static final Scanner SCANNER = new Scanner(System.in);
     public static final int ROUNDS = 3;
 
-    public static void run(ArrayList<RoundData> rounds, String rules) {
-        String userName = Cli.welcome();
+    public static String requestName() {
+        System.out.print("May I have your name? ");
+        return SCANNER.next();
+    }
+
+    public static void run(GameInterface generateRoundData, String rules) {
+        System.out.println("\nWelcome to the Brain Games!");
+        String userName = requestName();
+        System.out.println("Hello, " + userName + "!");
         System.out.println(rules);
-        for (var round : rounds) {
-            System.out.println(round.getQuestion());
+        for (var step = 0; step < ROUNDS; step++) {
+            RoundData round = generateRoundData.generateNextRoundData();
+            System.out.println("Question: " + round.getQuestion());
             System.out.print("Your answer: ");
-            Scanner input = new Scanner(System.in);
-            String userAnswer = input.nextLine();
+            String userAnswer = SCANNER.next();
             if (userAnswer.equals(round.getAnswer())) {
-                System.out.println("Correct!");
+                System.out.println(CORRECT_ANSWER_MESSAGE);
             } else {
-                System.out.printf("'%s' is wrong answer ;(. Correct answer was '%s'%n", userAnswer, round.getAnswer());
-                System.out.printf("Let's try again, %s!", userName);
+                System.out.printf(WRONG_ANSWER_MESSAGE, userAnswer, round.getAnswer(), userName);
                 return;
             }
         }
-        System.out.printf("Congratulations, %s!", userName);
+
+        System.out.printf(CONGRATULATIONS_MESSAGE, userName);
     }
 }
