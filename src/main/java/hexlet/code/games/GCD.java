@@ -4,16 +4,19 @@ import hexlet.code.Engine;
 import hexlet.code.RoundData;
 import hexlet.code.Utils;
 
-public class GCD {
+public final class GCD extends Engine {
 
     private static final int RANDOM_RANGE_LIMIT_1 = 1;
     private static final int RANDOM_RANGE_LIMIT_100 = 100;
+    private static final String RULES = "Find the greatest common divisor of given numbers.";
+    private static final String NAME = "GCD";
 
-    public static void run() {
-        Engine.run(GCD::generateNextRoundData, "Find the greatest common divisor of given numbers.");
+    public GCD() {
+        super(NAME, RULES);
     }
 
-    private static RoundData generateNextRoundData() {
+    @Override
+    protected RoundData generateNextRoundData() {
         int randomFirstNum = Utils.getRandom(RANDOM_RANGE_LIMIT_1, RANDOM_RANGE_LIMIT_100);
         int randomSecondNum = Utils.getRandom(RANDOM_RANGE_LIMIT_1, RANDOM_RANGE_LIMIT_100);
         String answer = generateCorrectAnswer(randomFirstNum, randomSecondNum);

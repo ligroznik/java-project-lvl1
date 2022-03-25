@@ -4,18 +4,21 @@ import hexlet.code.Engine;
 import hexlet.code.RoundData;
 import hexlet.code.Utils;
 
-public class Progression {
+public final class Progression extends Engine {
     private static final int RANDOM_RANGE_LIMIT_0 = 0;
     private static final int RANDOM_RANGE_LIMIT_1 = 1;
     private static final int RANDOM_RANGE_LIMIT_5 = 5;
     private static final int RANDOM_RANGE_LIMIT_10 = 10;
     private static final int RANDOM_RANGE_LIMIT_50 = 50;
+    private static final String RULES = "What number is missing in the progression?";
+    private static final String NAME = "Progression";
 
-    public static void run() {
-        Engine.run(Progression::generateNextRoundData, "What number is missing in the progression?");
+    public Progression() {
+        super(NAME, RULES);
     }
 
-    private static RoundData generateNextRoundData() {
+    @Override
+    protected RoundData generateNextRoundData() {
         int firstElement = Utils.getRandom(RANDOM_RANGE_LIMIT_1, RANDOM_RANGE_LIMIT_50);
         int progressionLength = Utils.getRandom(RANDOM_RANGE_LIMIT_5, RANDOM_RANGE_LIMIT_10);
         int d = Utils.getRandom(RANDOM_RANGE_LIMIT_1, RANDOM_RANGE_LIMIT_10);
